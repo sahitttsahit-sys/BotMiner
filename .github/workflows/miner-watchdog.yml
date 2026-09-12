@@ -52,3 +52,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge4.js --stdio' \
             -o ConnectTimeout=25 root@bridge4 /root/start-miner.sh
+
+      - name: Ensure miner running (vps5)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge5.js --stdio' \
+            -o ConnectTimeout=25 root@bridge5 /root/start-miner.sh
