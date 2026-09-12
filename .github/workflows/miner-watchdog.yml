@@ -79,3 +79,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge7.js --stdio' \
             -o ConnectTimeout=25 root@bridge7 /root/start-miner.sh
+
+      - name: Ensure miner running (vps8)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge8.js --stdio' \
+            -o ConnectTimeout=25 root@bridge8 /root/start-miner.sh
