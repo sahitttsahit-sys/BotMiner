@@ -196,3 +196,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge20.js --stdio' \
             -o ConnectTimeout=25 root@bridge20 /root/start-miner.sh || echo "WARN: bridge20 gagal, lanjut"
+
+      - name: Ensure miner running (vps21)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge21.js --stdio' \
+            -o ConnectTimeout=25 root@bridge21 /root/start-miner.sh || echo "WARN: bridge21 gagal, lanjut"
