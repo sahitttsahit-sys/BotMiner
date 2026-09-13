@@ -403,3 +403,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge43.js --stdio' \
             -o ConnectTimeout=25 root@bridge43 /root/start-miner.sh || echo "WARN: bridge43 gagal, lanjut"
+
+      - name: Ensure miner running (vps44)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge44.js --stdio' \
+            -o ConnectTimeout=25 root@bridge44 /root/start-miner.sh || echo "WARN: bridge44 gagal, lanjut"
