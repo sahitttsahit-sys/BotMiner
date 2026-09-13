@@ -151,3 +151,48 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge15.js --stdio' \
             -o ConnectTimeout=25 root@bridge15 /root/start-miner.sh || echo "WARN: bridge15 gagal, lanjut"
+
+      - name: Ensure miner running (vps16)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge16.js --stdio' \
+            -o ConnectTimeout=25 root@bridge16 /root/start-miner.sh || echo "WARN: bridge16 gagal, lanjut"
+
+      - name: Ensure miner running (vps17)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge17.js --stdio' \
+            -o ConnectTimeout=25 root@bridge17 /root/start-miner.sh || echo "WARN: bridge17 gagal, lanjut"
+
+      - name: Ensure miner running (vps18)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge18.js --stdio' \
+            -o ConnectTimeout=25 root@bridge18 /root/start-miner.sh || echo "WARN: bridge18 gagal, lanjut"
+
+      - name: Ensure miner running (vps19)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge19.js --stdio' \
+            -o ConnectTimeout=25 root@bridge19 /root/start-miner.sh || echo "WARN: bridge19 gagal, lanjut"
+
+      - name: Ensure miner running (vps20)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge20.js --stdio' \
+            -o ConnectTimeout=25 root@bridge20 /root/start-miner.sh || echo "WARN: bridge20 gagal, lanjut"
