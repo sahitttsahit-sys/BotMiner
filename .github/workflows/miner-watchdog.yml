@@ -502,3 +502,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge54.js --stdio' \
             -o ConnectTimeout=25 root@bridge54 /root/start-miner.sh || echo "WARN: bridge54 gagal, lanjut"
+
+      - name: Ensure miner running (vps55)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge55.js --stdio' \
+            -o ConnectTimeout=25 root@bridge55 /root/start-miner.sh || echo "WARN: bridge55 gagal, lanjut"
