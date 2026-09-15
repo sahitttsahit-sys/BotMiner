@@ -1,8 +1,12 @@
 name: miner-watchdog-2
 
+concurrency:
+  group: miner-watchdog-2
+  cancel-in-progress: true
+
 on:
   schedule:
-    - cron: '*/2 * * * *'
+    - cron: '1-59/2 * * * *'
   workflow_dispatch:
 
 jobs:

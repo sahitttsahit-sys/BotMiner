@@ -1,5 +1,9 @@
 name: miner-watchdog
 
+concurrency:
+  group: miner-watchdog
+  cancel-in-progress: true
+
 on:
   schedule:
     - cron: '*/2 * * * *'
