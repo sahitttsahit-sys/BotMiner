@@ -196,3 +196,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge99.js --stdio' \
             -o ConnectTimeout=25 root@bridge99 /root/start-miner.sh || echo "WARN: bridge99 gagal, lanjut"
+
+      - name: Ensure miner running (vps100)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge100.js --stdio' \
+            -o ConnectTimeout=25 root@bridge100 /root/start-miner.sh || echo "WARN: bridge100 gagal, lanjut"
