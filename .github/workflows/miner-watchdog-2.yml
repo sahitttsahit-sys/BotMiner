@@ -23,6 +23,8 @@ jobs:
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
           ssh -i ~/.ssh/miner_key \
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge40.js --stdio' \
