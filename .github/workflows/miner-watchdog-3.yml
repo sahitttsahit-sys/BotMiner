@@ -23,3 +23,14 @@ jobs:
       # Step pertama WAJIB diawali init key:
       #   mkdir -p ~/.ssh && chmod 700 ~/.ssh
       #   printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
+
+      - name: Ensure miner running (vps81)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge81.js --stdio' \
+            -o ConnectTimeout=25 root@bridge81 /root/start-miner.sh || echo "WARN: bridge81 gagal, lanjut"
