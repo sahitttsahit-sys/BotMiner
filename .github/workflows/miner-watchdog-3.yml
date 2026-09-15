@@ -1,0 +1,25 @@
+name: miner-watchdog-3
+
+concurrency:
+  group: miner-watchdog-3
+  cancel-in-progress: true
+
+on:
+  schedule:
+    - cron: '*/2 * * * *'
+  workflow_dispatch:
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      # VPS baru (vps81+) ditambahkan di sini sebagai step "Ensure miner running (vpsN)".
+      # Step pertama WAJIB diawali init key:
+      #   mkdir -p ~/.ssh && chmod 700 ~/.ssh
+      #   printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
