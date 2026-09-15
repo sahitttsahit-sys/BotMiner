@@ -1,0 +1,22 @@
+name: debug-ssh
+on:
+  workflow_dispatch:
+jobs:
+  dbg:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Debug auth vps40
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
+          ssh-keygen -l -f ~/.ssh/miner_key || echo "KEY-INVALID"
+          ssh -vvv -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge40.js --stdio' \
+            -o ConnectTimeout=25 -o NumberOfPasswordPrompts=0 root@bridge40 'echo CONNECT-OK; cat ~/.ssh/authorized_keys | wc -l' || echo "SSH-FAILED"
