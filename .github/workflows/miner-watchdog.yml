@@ -682,3 +682,12 @@ jobs:
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
             -o ProxyCommand='node ssh-ws-bridge74.js --stdio' \
             -o ConnectTimeout=25 root@bridge74 /root/start-miner.sh || echo "WARN: bridge74 gagal, lanjut"
+
+      - name: Ensure miner running (vps75)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge75.js --stdio' \
+            -o ConnectTimeout=25 root@bridge75 /root/start-miner.sh || echo "WARN: bridge75 gagal, lanjut"
