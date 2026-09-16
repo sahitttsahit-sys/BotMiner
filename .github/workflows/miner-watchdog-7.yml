@@ -1,0 +1,35 @@
+name: miner-watchdog-7
+
+concurrency:
+  group: miner-watchdog-7
+  cancel-in-progress: true
+
+on:
+  schedule:
+    - cron: '0-59/6 * * * *'
+  workflow_dispatch:
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        id: ['121', '122', '123', '124', '125', '126', '127']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Ensure miner running (vps${{ matrix.id }})
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge${{ matrix.id }}.js --stdio' \
+            -o ConnectTimeout=25 root@bridge${{ matrix.id }} /root/start-miner.sh || echo "WARN: bridge${{ matrix.id }} gagal, lanjut"
