@@ -1,0 +1,30 @@
+name: miner-watchdog-6
+
+concurrency:
+  group: miner-watchdog-6
+  cancel-in-progress: true
+
+on:
+  schedule:
+    - cron: '5-59/6 * * * *'
+  workflow_dispatch:
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Ensure miner running (vps101)
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+        run: |
+          mkdir -p ~/.ssh && chmod 700 ~/.ssh
+          printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
+          ssh -i ~/.ssh/miner_key \
+            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+            -o ProxyCommand='node ssh-ws-bridge101.js --stdio' \
+            -o ConnectTimeout=25 root@bridge101 /root/start-miner.sh || echo "WARN: bridge101 gagal, lanjut"
