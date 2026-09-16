@@ -12,13 +12,18 @@ on:
 jobs:
   watchdog:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      max-parallel: 10
+      matrix:
+        id: ['', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20']
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - name: Ensure miner running (vps-ws)
+      - name: Ensure miner running (vps${{ matrix.id }})
         env:
           SSH_KEY: ${{ secrets.SSH_KEY }}
         run: |
@@ -26,157 +31,5 @@ jobs:
           printf '%s\n' "$SSH_KEY" > ~/.ssh/miner_key && chmod 600 ~/.ssh/miner_key
           ssh -i ~/.ssh/miner_key \
             -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge.js --stdio' \
-            -o ConnectTimeout=25 root@bridge /root/start-miner.sh || echo "WARN: bridge gagal, lanjut"
-      - name: Ensure miner running (vps2)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge2.js --stdio' \
-            -o ConnectTimeout=25 root@bridge2 /root/start-miner.sh || echo "WARN: bridge2 gagal, lanjut"
-      - name: Ensure miner running (vps3)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge3.js --stdio' \
-            -o ConnectTimeout=25 root@bridge3 /root/start-miner.sh || echo "WARN: bridge3 gagal, lanjut"
-      - name: Ensure miner running (vps4)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge4.js --stdio' \
-            -o ConnectTimeout=25 root@bridge4 /root/start-miner.sh || echo "WARN: bridge4 gagal, lanjut"
-      - name: Ensure miner running (vps5)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge5.js --stdio' \
-            -o ConnectTimeout=25 root@bridge5 /root/start-miner.sh || echo "WARN: bridge5 gagal, lanjut"
-      - name: Ensure miner running (vps6)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge6.js --stdio' \
-            -o ConnectTimeout=25 root@bridge6 /root/start-miner.sh || echo "WARN: bridge6 gagal, lanjut"
-      - name: Ensure miner running (vps7)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge7.js --stdio' \
-            -o ConnectTimeout=25 root@bridge7 /root/start-miner.sh || echo "WARN: bridge7 gagal, lanjut"
-      - name: Ensure miner running (vps8)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge8.js --stdio' \
-            -o ConnectTimeout=25 root@bridge8 /root/start-miner.sh || echo "WARN: bridge8 gagal, lanjut"
-      - name: Ensure miner running (vps9)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge9.js --stdio' \
-            -o ConnectTimeout=25 root@bridge9 /root/start-miner.sh || echo "WARN: bridge9 gagal, lanjut"
-      - name: Ensure miner running (vps10)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge10.js --stdio' \
-            -o ConnectTimeout=25 root@bridge10 /root/start-miner.sh || echo "WARN: bridge10 gagal, lanjut"
-      - name: Ensure miner running (vps11)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge11.js --stdio' \
-            -o ConnectTimeout=25 root@bridge11 /root/start-miner.sh || echo "WARN: bridge11 gagal, lanjut"
-      - name: Ensure miner running (vps12)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge12.js --stdio' \
-            -o ConnectTimeout=25 root@bridge12 /root/start-miner.sh || echo "WARN: bridge12 gagal, lanjut"
-      - name: Ensure miner running (vps13)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge13.js --stdio' \
-            -o ConnectTimeout=25 root@bridge13 /root/start-miner.sh || echo "WARN: bridge13 gagal, lanjut"
-      - name: Ensure miner running (vps14)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge14.js --stdio' \
-            -o ConnectTimeout=25 root@bridge14 /root/start-miner.sh || echo "WARN: bridge14 gagal, lanjut"
-      - name: Ensure miner running (vps15)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge15.js --stdio' \
-            -o ConnectTimeout=25 root@bridge15 /root/start-miner.sh || echo "WARN: bridge15 gagal, lanjut"
-      - name: Ensure miner running (vps16)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge16.js --stdio' \
-            -o ConnectTimeout=25 root@bridge16 /root/start-miner.sh || echo "WARN: bridge16 gagal, lanjut"
-      - name: Ensure miner running (vps17)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge17.js --stdio' \
-            -o ConnectTimeout=25 root@bridge17 /root/start-miner.sh || echo "WARN: bridge17 gagal, lanjut"
-      - name: Ensure miner running (vps18)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge18.js --stdio' \
-            -o ConnectTimeout=25 root@bridge18 /root/start-miner.sh || echo "WARN: bridge18 gagal, lanjut"
-      - name: Ensure miner running (vps19)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge19.js --stdio' \
-            -o ConnectTimeout=25 root@bridge19 /root/start-miner.sh || echo "WARN: bridge19 gagal, lanjut"
-      - name: Ensure miner running (vps20)
-        env:
-          SSH_KEY: ${{ secrets.SSH_KEY }}
-        run: |
-          ssh -i ~/.ssh/miner_key \
-            -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-            -o ProxyCommand='node ssh-ws-bridge20.js --stdio' \
-            -o ConnectTimeout=25 root@bridge20 /root/start-miner.sh || echo "WARN: bridge20 gagal, lanjut"
+            -o ProxyCommand='node ssh-ws-bridge${{ matrix.id }}.js --stdio' \
+            -o ConnectTimeout=25 root@bridge${{ matrix.id }} /root/start-miner.sh || echo "WARN: bridge${{ matrix.id }} gagal, lanjut"
